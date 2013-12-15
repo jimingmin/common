@@ -5,8 +5,8 @@
  *      Author: jimm
  */
 
-#include "common/common_thread.h"
-#include "common/common_api.h"
+#include "common_thread.h"
+#include "common_api.h"
 #include <time.h>
 #include <iostream>
 #include <fstream>

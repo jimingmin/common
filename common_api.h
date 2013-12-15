@@ -87,9 +87,6 @@ extern "C"
 	*/
 	int32_t AnsiCodeLengthFromUTF8Buffer(uint8_t* buf, int32_t len);
 
-	//将日志超出限制处理
-	void MoveLogFile(int32_t max_file_size, const char* file_name, FILE*& pf);
-
 	//字符串转换成端口号
 	void StringToPorts(const char* szPorts, char separator, uint16_t& nPortCount, uint16_t arrPorts[]);
 
@@ -118,8 +115,6 @@ extern "C"
 	char *stringcopy(char *dest, const char *src, size_t n);
 
 	void WriteBill(const char* szFileName, const char* szFormat, ...);
-
-	char *inet_ntoa_f(uint32_t ip);
 
 	pid_t gettid();
 

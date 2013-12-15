@@ -22,8 +22,8 @@
 
 #include <string.h>
 
-#include "common/common_api.h"
-#include "common/common_datetime.h"
+#include "common_api.h"
+#include "common_datetime.h"
 #include <time.h>
 #include <sys/time.h>
 
@@ -584,66 +584,6 @@ int32_t AnsiCodeLengthFromUTF8Buffer(uint8_t* buf, int32_t len)
 	return count;
 }
 
-void MoveLogFile(int32_t max_file_size, const char* file_name, FILE*& pf)
-{
-#ifndef WIN32
-	struct stat curr_stat = { 0 };
-
-	int32_t ret = stat(file_name, &curr_stat);
-	if (0 != ret)
-	{
-		return;
-	}
-	if (curr_stat.st_size < max_file_size)
-	{
-		return;
-	}
-
-	char new_name[1024] = { 0 };
-
-	//获取合适的文件扩展名
-	int32_t num = 1;
-	for (num = 1; num < 64; ++num)
-	{
-		sprintf(new_name, "%s.%d", file_name, num);
-		if (access(new_name, F_OK) < 0)
-		{
-			if(errno == ENOENT)
-			{
-				break;
-			}
-		}
-	}
-
-	//日志文件数量达到上线
-	if (num == 64)
-	{
-		return;
-	}
-
-	//关闭当前文件
-	if (NULL != pf)
-	{
-		fclose(pf);
-	}
-
-	//更改当前文件名
-	ret = rename(file_name, new_name);
-	if (0 == ret)
-	{
-		//打开新文件
-		if (NULL != pf)
-		{
-			pf = fopen(file_name, "a+");
-		}
-	}
-	else
-	{
-		pf = NULL;
-	}
-#endif
-}
-
 //字符串转换成端口号
 void StringToPorts(const char* szPorts, char separator, uint16_t& nPortCount, uint16_t arrPorts[])
 {
@@ -843,15 +783,6 @@ void WriteBill(const char* szFileName, const char* szFormat, ...)
 	va_end(ap);
 
 	fclose(pf);
-}
-
-char *inet_ntoa_f(uint32_t ip)
-{
-	static char buf[16];
-	uint8_t *str = (uint8_t *)&ip;
-	sprintf(buf, "%d.%d.%d.%d", str[0] & 0xff, str[1] & 0xff, str[2] & 0xff, str[3] & 0xff);
-
-	return buf;
 }
 
 pid_t gettid()
