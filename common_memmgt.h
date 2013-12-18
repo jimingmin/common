@@ -84,9 +84,9 @@ public:
 	virtual ~CFrameMemMgt();
 
 	//注意，初始化内存一定要保证单线程操作！
-	int32_t Initialize();
-	int32_t Resume();
-	int32_t Uinitialize();
+	virtual int32_t Initialize();
+	virtual int32_t Uinitialize();
+	virtual int32_t GetSize();
 
 	//分配内存块
 	uint8_t *AllocBlock(int32_t nWantSize);

@@ -24,16 +24,14 @@ int32_t CObject::Initialize()
 	return S_OK;
 }
 
-int32_t CObject::Resume()
-{
-	return S_OK;
-}
-
 int32_t CObject::Uninitialize()
 {
 	return S_OK;
 }
 
-
+int32_t CObject::GetSize()
+{
+	return sizeof(*this);
+}
 
 

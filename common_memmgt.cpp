@@ -37,14 +37,14 @@ int32_t CFrameMemMgt::Initialize()
 	return S_OK;
 }
 
-int32_t CFrameMemMgt::Resume()
+int32_t CFrameMemMgt::Uinitialize()
 {
 	return S_OK;
 }
 
-int32_t CFrameMemMgt::Uinitialize()
+int32_t CFrameMemMgt::GetSize()
 {
-	return S_OK;
+	return sizeof(*this);
 }
 
 uint8_t *CFrameMemMgt::AllocBlock(int32_t nWantSize)
