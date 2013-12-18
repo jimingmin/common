@@ -712,7 +712,7 @@ int32_t GetReferCount(uint8_t *pMem)
 #include <iostream>
 using namespace std;
 
-uint8_t* frame_malloc(uint32_t size, char *pFileName, int32_t nLineNo)
+uint8_t* frame_malloc(uint32_t size, const char *pFileName, int32_t nLineNo)
 {
 	//cout << "malloc:" << pFileName << " line: " << nLineNo << endl << flush;
 	uint8_t *pMem = NULL;
@@ -732,7 +732,7 @@ uint8_t* frame_malloc(uint32_t size, char *pFileName, int32_t nLineNo)
 	return pMem;
 }
 
-void frame_free(void *addr, char *pFileName, int32_t nLineNo)
+void frame_free(void *addr, const char *pFileName, int32_t nLineNo)
 {
 //	cout << "@@@@free:" << pFileName << " line: " << nLineNo << endl << flush;
 	uint8_t *ptr = (uint8_t *)(addr);

@@ -152,6 +152,10 @@ protected:
 //获取最大内存大小
 #define MaxBlockSize		g_FrameMemMgt.GetMaxBlockSize()
 
+//#ifdef __cplusplus
+//extern "C"
+//{
+//#endif
 //增加引用计数
 int32_t IncReferCount(uint8_t *pMem);
 //减少引用计数
@@ -170,5 +174,9 @@ void frame_free(void *addr, const char *pFileName, int32_t nLineNo);
 #define NEW(cls)				new(MALLOC(sizeof(cls))) cls()
 
 #define DELETE(obj)				FREE(obj)
+
+//#ifdef __cplusplus
+//}
+//#endif
 
 #endif /* COMMON_MEMMGT_H_ */
