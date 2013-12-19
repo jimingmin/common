@@ -439,7 +439,7 @@ public:
 
 		pParent = FindInsertPostion(key);
 
-		//��������
+
 		pNode = CreateIndex();
 		if (NULL == pNode)
 		{

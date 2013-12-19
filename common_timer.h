@@ -25,7 +25,7 @@ class Timer
 public:
 	Timer()
 	{
-		nTimerID = 0;
+
 		pData = NULL;
 		nTimerSeq = 0;
 		pTimerHandler = NULL;
@@ -38,7 +38,7 @@ public:
 		attachedDataA = 0;
 		attachedDataB = 0;
 	}
-	TimerID					nTimerID;
+
 	void					*pData;
 	uint32_t				nTimerSeq;
 	CObject					*pTimerHandler;
@@ -51,25 +51,6 @@ public:
 	uint32_t                attachedDataA;
 	uint32_t                attachedDataB;
 };
-
-class ITimerData
-{
-public:
-	virtual ~ITimerData(){};
-
-	virtual int32_t GetSize() = 0;
-};
-
-#define TIMER_INTERFACE() 	\
-	public:	\
-	int32_t GetSize(){return sizeof(*this);}
-
-#define TIMER_DATA_BEGIN(class_name)	\
-	class class_name : public ITimerData	\
-	{	\
-		TIMER_INTERFACE()
-
-#define TIMER_DATA_END()	};
 
 class CTimer : public CObject
 {
@@ -85,7 +66,6 @@ public:
 
 	virtual int32_t Initialize()
 	{
-		memset(&m_stTimer, 0, sizeof(m_stTimer));
 		return S_OK;
 	}
 
@@ -109,11 +89,6 @@ public:
 	void GetTimer(Timer& stTimer)
 	{
 		memcpy(&stTimer, &m_stTimer, sizeof(m_stTimer));
-	}
-
-	int32_t GetTimerID()
-	{
-		return m_stTimer.nTimerID;
 	}
 
 	void *GetTimerData()

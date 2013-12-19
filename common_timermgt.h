@@ -38,7 +38,7 @@ public:
 public:
 	bool Process();
 
-	int32_t CreateTimer(TimerProc Proc, CObject *pTimer, ITimerData *pTimerData, int64_t nCycleTime, bool bLoop, TimerIndex& timerIndex);
+	int32_t CreateTimer(TimerProc Proc, CObject *pTimer, CObject *pTimerData, int64_t nCycleTime, bool bLoop, TimerIndex& timerIndex);
 
 	int32_t RemoveTimer(TimerIndex timerIndex);
 

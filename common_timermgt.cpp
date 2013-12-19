@@ -45,16 +45,16 @@ int32_t CTimerMgt::GetSize()
 	return sizeof(*this);
 }
 
-int32_t CTimerMgt::CreateTimer(TimerProc Proc, CObject *pTimer, ITimerData *pTimerData, int64_t nCycleTime, bool bLoop, TimerIndex& timerIndex)
+int32_t CTimerMgt::CreateTimer(TimerProc Proc, CObject *pTimer, CObject *pTimerData, int64_t nCycleTime, bool bLoop, TimerIndex& timerIndex)
 {
 	uint8_t *pObj = NULL;
 	if(pTimerData != NULL)
 	{
 		int32_t nTimerDataSize = pTimerData->GetSize();
-		pObj = MALLOC(nTimerDataSize);//g_FrameMemMgt.AllocBlock(nTimerDataSize);
+		pObj = MALLOC(nTimerDataSize);
 		if(pObj == NULL)
 		{
-			return E_UNKNOWN;
+			return E_MALLOCFAILED;
 		}
 
 		memcpy(pObj, pTimerData, nTimerDataSize);
@@ -62,9 +62,8 @@ int32_t CTimerMgt::CreateTimer(TimerProc Proc, CObject *pTimer, ITimerData *pTim
 
 	//初始化定时器参数
 	Timer timer;
-	timer.nTimerID = 0;
 	timer.pData = pObj;
-	timer.nStartTime = CTimeValue::CurrentTime().Microseconds();
+	timer.nStartTime = CTimeValue::CurrentTime().Milliseconds();
 	timer.nCycleTime = nCycleTime;
 	timer.nEndTime = timer.nStartTime + timer.nCycleTime;
 	timer.bLoop = bLoop;
@@ -83,7 +82,7 @@ int32_t CTimerMgt::CreateTimer(TimerProc Proc, CObject *pTimer, ITimerData *pTim
 	if (NULL == pIndex)
 	{
 		FREE(pObj);
-		return E_UNKNOWN;
+		return E_CREATEOBJECT;
 	}
 
 	//建立定时器索引
@@ -93,7 +92,7 @@ int32_t CTimerMgt::CreateTimer(TimerProc Proc, CObject *pTimer, ITimerData *pTim
 		FREE(pObj);
 		m_timerPool.DestroyObject(pIndex);
 		pIndex = NULL;
-		return E_UNKNOWN;
+		return E_INSERTMAP;
 	}
 
 	//将索引保存到附加数据表中
@@ -121,7 +120,7 @@ int32_t CTimerMgt::RemoveTimer(TimerIndex timerIndex)
 	TimerPool::CIndex* pIndex = m_timerPool.GetIndex(timerIndex);
 	if (NULL == pIndex)
 	{
-		return E_UNKNOWN;
+		return E_GTEOBJECT;
 	}
 
 	return RemoveTimer(pIndex);
@@ -157,7 +156,7 @@ int32_t CTimerMgt::GetTimer(TimerIndex timerIndex, CTimer*& pTimer)
 	TimerPool::CIndex* pIndex = m_timerPool.GetIndex(timerIndex);
 	if (NULL == pIndex)
 	{
-		return E_UNKNOWN;
+		return E_GTEOBJECT;
 	}
 
 	pTimer = pIndex->ObjectPtr();
@@ -170,20 +169,20 @@ int32_t CTimerMgt::RemoveTimer(TimerPool::CIndex* pIndex)
 {
 	if (NULL == pIndex)
 	{
-		return E_UNKNOWN;
+		return E_NULLPOINTER;
 	}
 
 	CTimer* pTimer = pIndex->ObjectPtr();
 	if(pTimer == NULL)
 	{
-		return E_NULLPOINTER;
+		return E_UNKNOWN;
 	}
 	//回收定时器所申请的内存资源
 	Timer timer;
 	pTimer->GetTimer(timer);
 	if(timer.pData != NULL)
 	{
-		FREE((uint8_t *)timer.pData);//g_FrameMemMgt.RecycleBlock((uint8_t *)timer.pData);
+		FREE((uint8_t *)timer.pData);
 	}
 
 	uint64_t nAddtionalValue = 0;
@@ -205,7 +204,7 @@ int32_t CTimerMgt::TimerFired(TimerIndex timerIndex)
 	TimerPool::CIndex* pIndex = m_timerPool.GetIndex(timerIndex);
 	if (NULL == pIndex)
 	{
-		return E_UNKNOWN;
+		return E_GTEOBJECT;
 	}
 
 	CTimer* pTimer = pIndex->ObjectPtr();
@@ -224,7 +223,7 @@ int32_t CTimerMgt::TimerFired(TimerIndex timerIndex)
 	pTimer->GetTimer(timer);
 
 	//更新定时器参数
-	timer.nEndTime = CTimeValue::CurrentTime().Microseconds() + timer.nCycleTime;
+	timer.nEndTime = CTimeValue::CurrentTime().Milliseconds() + timer.nCycleTime;
 	++timer.nFiredCount;
 	pTimer->SetTimer(timer);
 
@@ -238,7 +237,7 @@ int32_t CTimerMgt::TimerFired(TimerIndex timerIndex)
 	if (NULL == pMapIndex)
 	{
 		m_timerPool.DestroyObject(pIndex);
-		return E_UNKNOWN;
+		return E_INSERTMAP;
 	}
 
 	//将索引保存到附加数据表中
@@ -268,7 +267,7 @@ int32_t CTimerMgt::GetFirstTimer(CTimer*& pTimer, TimerIndex& timerIndex)
 	{
 		//索引列表中存在无效索引则删除
 		m_timerMap.Erase(pMapIndex);
-		return E_UNKNOWN;
+		return E_GTEOBJECT;
 	}
 
 	pTimer = pIndex->ObjectPtr();
@@ -291,7 +290,7 @@ bool CTimerMgt::Process()
 	}
 
 	//定时器结束时间小于当前时间
-	if (pTimer->GetEndTime() > CTimeValue::CurrentTime().Microseconds())
+	if (pTimer->GetEndTime() > CTimeValue::CurrentTime().Milliseconds())
 	{
 		return false;
 	}
