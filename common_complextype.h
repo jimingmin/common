@@ -18,13 +18,13 @@
 	class CComplexType<type>	\
 	{	\
 	public:	\
-		inline int32_t Initialize()	\
+		inline int32_t Init()	\
 		{	\
-			return m_object.Initialize();	\
+			return m_object.Init();	\
 		}	\
-		inline int32_t Uninitialize()	\
+		inline int32_t Uninit()	\
 		{	\
-			return m_object.Uninitialize();	\
+			return m_object.Uninit();	\
 		}	\
 		inline int32_t GetSize()	\
 		{	\
@@ -47,17 +47,17 @@ template<typename T>
 class CComplexType
 {
 public:
-	inline int32_t Initialize()
+	inline int32_t Init()
 	{
 		return S_OK;
 	}
-	inline int32_t Resume()
+	inline int32_t Uninit()
 	{
 		return S_OK;
 	}
-	inline int32_t Uninitialize()
+	inline int32_t GetSize()
 	{
-		return S_OK;
+		return 0;
 	}
 	inline T& GetValue()
 	{

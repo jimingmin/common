@@ -64,12 +64,12 @@ public:
 
 public:
 
-	virtual int32_t Initialize()
+	virtual int32_t Init()
 	{
 		return S_OK;
 	}
 
-	virtual int32_t Uninitialize()
+	virtual int32_t Uninit()
 	{
 		memset(&m_stTimer, 0, sizeof(m_stTimer));
 		return S_OK;

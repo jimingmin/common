@@ -19,12 +19,12 @@ CObject::~CObject()
 
 }
 
-int32_t CObject::Initialize()
+int32_t CObject::Init()
 {
 	return S_OK;
 }
 
-int32_t CObject::Uninitialize()
+int32_t CObject::Uninit()
 {
 	return S_OK;
 }

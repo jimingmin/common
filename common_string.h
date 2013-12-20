@@ -57,7 +57,7 @@ public:
 	{
 	}
 
-	int32_t Initialize()
+	int32_t Init()
 	{
 		m_curlen = 0;
 		memset(m_char, 0, sizeof(m_char));
@@ -73,7 +73,7 @@ public:
 		return S_OK;
 	}
 
-	int32_t Uninitialize()
+	int32_t Uninit()
 	{
 		m_curlen = 0;
 		memset(m_char, 0, sizeof(m_char));

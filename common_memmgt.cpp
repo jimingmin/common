@@ -20,7 +20,7 @@ CFrameMemMgt::~CFrameMemMgt()
 
 }
 
-int32_t CFrameMemMgt::Initialize()
+int32_t CFrameMemMgt::Init()
 {
 	int32_t nWantCount = 0;
 	//从MAM_BLOCK_SIZE_STEP字节到n * MAM_BLOCK_SIZE_STEP字节各申请0个内存块,主要是为了生成内存块索引
@@ -37,7 +37,7 @@ int32_t CFrameMemMgt::Initialize()
 	return S_OK;
 }
 
-int32_t CFrameMemMgt::Uinitialize()
+int32_t CFrameMemMgt::Uninit()
 {
 	return S_OK;
 }

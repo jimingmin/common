@@ -16,8 +16,8 @@ public:
 	CObject();
 	virtual ~CObject();
 public:
-	virtual int32_t Initialize();
-	virtual int32_t Uninitialize();
+	virtual int32_t Init();
+	virtual int32_t Uninit();
 	virtual int32_t GetSize();
 };
 

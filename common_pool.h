@@ -43,7 +43,7 @@ public:
 		}
 
 	public:
-		virtual int32_t Initialize()
+		virtual int32_t Init()
 		{
 			m_pContainer = NULL;
 			m_nFlag = enmIndexFlag_Free;
@@ -67,7 +67,7 @@ public:
 			return S_OK;
 		}
 
-		virtual int32_t Uninitialize()
+		virtual int32_t Uninit()
 		{
 			m_nFlag = enmIndexFlag_Free;
 			m_nIndex = enmInvalidObjectID;
@@ -273,7 +273,7 @@ public:
 
 public:
 
-	virtual int32_t Initialize()
+	virtual int32_t Init()
 	{
 		m_nObjectCount = 0;
 		m_nFreeCount = CAPACITY;
@@ -288,7 +288,7 @@ public:
 
 		for (uint32_t i = 0; i < CAPACITY; ++i)
 		{
-			m_arrIndex[i].Initialize();
+			m_arrIndex[i].Init();
 		}
 
 		BuildIndexList();
@@ -305,7 +305,7 @@ public:
 		return S_OK;
 	}
 
-	virtual int32_t Uninitialize()
+	virtual int32_t Uninit()
 	{
 		m_nObjectCount = 0;
 		m_nFreeCount = CAPACITY;
@@ -320,7 +320,7 @@ public:
 
 		for (uint32_t i = 0; i < CAPACITY; ++i)
 		{
-			m_arrIndex[i].Uninitialize();
+			m_arrIndex[i].Uninit();
 		}
 
 		BuildIndexList();
@@ -352,7 +352,7 @@ public:
 
 	void Clear()
 	{
-		Uninitialize();
+		Uninit();
 	}
 
 
@@ -521,7 +521,7 @@ protected:
 		++m_nObjectCount;
 		--m_nFreeCount;
 
-		pIndex->m_object.Initialize();
+		pIndex->m_object.Init();
 
 		return pIndex;
 	}
@@ -590,7 +590,7 @@ protected:
 		--m_nObjectCount;
 		++m_nFreeCount;
 
-		pIndex->m_object.Uninitialize();
+		pIndex->m_object.Uninit();
 
 		return S_OK;
 	}

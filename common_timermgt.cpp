@@ -22,20 +22,20 @@ CTimerMgt::~CTimerMgt()
 }
 
 //初始化数据中心
-int32_t CTimerMgt::Initialize()
+int32_t CTimerMgt::Init()
 {
 	MUTEX_GUARD(TimerLock, m_stTimerLock);
-	m_timerPool.Initialize();
-	m_timerMap.Initialize();
+	m_timerPool.Init();
+	m_timerMap.Init();
 	return S_OK;
 }
 
 //注销定时器管理器
-int32_t CTimerMgt::Uninitialize()
+int32_t CTimerMgt::Uninit()
 {
 	MUTEX_GUARD(TimerLock, m_stTimerLock);
-	m_timerPool.Uninitialize();
-	m_timerMap.Uninitialize();
+	m_timerPool.Uninit();
+	m_timerMap.Uninit();
 	return S_OK;
 }
 
