@@ -147,7 +147,7 @@ protected:
 	MemRecordMap		m_stRecycleMemRecordMap;
 };
 
-#define	g_FrameMemMgt							CSingleton<CFrameMemMgt>::GetInstance()
+#define	g_FrameMemMgt		CSingleton<CFrameMemMgt>::GetInstance()
 
 //获取最大内存大小
 #define MaxBlockSize		g_FrameMemMgt.GetMaxBlockSize()

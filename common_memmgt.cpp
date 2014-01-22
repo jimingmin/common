@@ -13,6 +13,8 @@ CFrameMemMgt::CFrameMemMgt()
 {
 	m_nMaxBlockSize = 0;
 	m_nMemLeakCount = 0;
+
+	Init();
 }
 
 CFrameMemMgt::~CFrameMemMgt()
