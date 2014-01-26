@@ -8,7 +8,7 @@
 #ifndef COMMON_CODEENGINE_H_
 #define COMMON_CODEENGINE_H_
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <memory.h>
 #include <string.h>
 
@@ -45,14 +45,7 @@ public:
 	virtual ~CCodeEngine();
 
 public:
-	/* ��ݴ�������ŵ���������
-	*  buf      - Ŀ�Ļ�������ռ���ڴ��ں����ڲ����䣬���ɵ������ͷ�
-	*  size     - Ŀ�Ļ������
-	*  offset   - ��������ݷ��뵽���������ʼƫ���������Ϊ��ƫ������
-	*             �´�����ݳ���֮��
-	*  data     - ��������
-	*  return   - ������
-	*/
+
 	static int32_t Encode(uint8_t* buf, const uint32_t size, uint32_t& offset, const bool data);
 	static int32_t Encode(uint8_t* buf, const uint32_t size, uint32_t& offset, const int8_t data);
 	static int32_t Encode(uint8_t* buf, const uint32_t size, uint32_t& offset, const int16_t data);
@@ -67,14 +60,7 @@ public:
 	static int32_t Encode(uint8_t* buf, const uint32_t size, uint32_t& offset, const double data);
 
 public:
-	/* ��ݽ��Ի������е���ݽ��н���
-	*  buf      - ��ݻ���������������
-	*  size     - ��ݻ������
-	*  offset   - ���뻺��������ݽ�����ʼƫ���������Ϊ��ƫ�������½��
-	*             ����ݳ���֮��
-	*  data     - ���ؽ��Ľ����ռ�õ��ڴ��ں����ڲ����䣬�ɵ������ͷ�
-	*  return   - ������
-	*/
+
 	static int32_t Decode(const uint8_t *buf, const uint32_t size, uint32_t& offset, bool& data);
 	static int32_t Decode(const uint8_t *buf, const uint32_t size, uint32_t& offset, int8_t& data);
 	static int32_t Decode(const uint8_t *buf, const uint32_t size, uint32_t& offset, int16_t& data);
