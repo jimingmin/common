@@ -9,17 +9,18 @@
 #define COMMON_CYCLEBUFFER_H_
 
 #include "common_mutex.h"
+#include "common_memmgt.h"
 #include <stdlib.h>
 #include <string.h>
 
-template<int32_t SIZE>
+template<int32_t SIZE, bool AUTOGROW = false>
 class CycleBuffer
 {
 public:
 	CycleBuffer()
 	{
 		Reset();
-		m_pBuf = (uint8_t *)malloc(SIZE);
+		m_pBuf = MALLOC(SIZE);
 		m_nBufSize = SIZE;
 	}
 
@@ -27,7 +28,7 @@ public:
 	{
 		if(m_pBuf != NULL)
 		{
-			delete m_pBuf;
+			FREE(m_pBuf);
 		}
 	}
 
@@ -39,7 +40,7 @@ public:
 		}
 
 		MUTEX_GUARD(lock, m_stLock);
-		uint8_t *pMem = (uint8_t *)malloc(nSize + m_nBufSize);
+		uint8_t *pMem = MALLOC(nSize + m_nBufSize);
 		if(pMem == NULL)
 		{
 			return 0;
@@ -64,7 +65,7 @@ public:
 
 		if(m_pBuf != NULL)
 		{
-			delete m_pBuf;
+			FREE(m_pBuf);
 		}
 		m_pBuf = pMem;
 
@@ -88,6 +89,11 @@ public:
 		//剩余空间不足
 		if(m_nDataSize + nDataSize > m_nBufSize)
 		{
+			if(!AUTOGROW)
+			{
+				return -1;
+			}
+
 			if(Grow((m_nDataSize + nDataSize) - m_nBufSize) <= 0)
 			{
 				return 0;
@@ -145,6 +151,10 @@ public:
 		//剩余空间不足
 		if(m_nDataSize + nDataSize > m_nBufSize)
 		{
+			if(!AUTOGROW)
+			{
+				return -1;
+			}
 			if(Grow((m_nDataSize + nDataSize) - m_nBufSize) <= 0)
 			{
 				return 0;
