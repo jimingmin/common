@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_api.cpp
  *
  *  Created on: 2013年12月13日
@@ -11,6 +11,7 @@
 #ifdef WIN32
 #include <winsock2.h>
 #include <windows.h>
+#pragma comment(lib,"Ws2_32")
 #else
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -18,6 +19,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <sys/syscall.h>
+#include <sys/time.h>
 #endif
 
 #include <string.h>
@@ -25,25 +27,24 @@
 #include "common_api.h"
 #include "common_datetime.h"
 #include <time.h>
-#include <sys/time.h>
-
-
 
 #define SERVER_NAME		"Common Library"
-
 
 
 //CPU休眠函数
 void Delay(uint32_t usec)
 {
-	struct timeval timeout;
+//#ifdef win32
+//	socket soc;
+//	soc = socket(af_inet, sock_dgram, 0);
+//	fd_set(soc, &fds);
+//#endif
+#ifdef WIN32
+	Sleep(usec / 1000);
+#else
 	fd_set fds;
 	FD_ZERO(&fds);
-#ifdef WIN32
-	SOCKET soc;
-	soc = socket(AF_INET, SOCK_DGRAM, 0);
-	FD_SET(soc, &fds);
-#endif
+	struct timeval timeout;
 	timeout.tv_sec = usec / 1000000;
 	timeout.tv_usec = usec % 1000000;
 	int ret = select(0, NULL, NULL, &fds, &timeout);
@@ -51,9 +52,10 @@ void Delay(uint32_t usec)
 	{
 		perror("select");
 	}
-#ifdef WIN32
-	closesocket(soc);
 #endif
+//#ifdef WIN32
+//	closesocket(soc);
+//#endif
 }
 
 //字符串拷贝函数
@@ -659,8 +661,8 @@ void RandomSerial(const int32_t nCount, const int32_t arrIn[], int32_t arrOut[])
 //是否同一天
 bool IsSameDay(const int32_t nTime1, const int32_t nTime2)
 {
-	tm tm1;
-	tm tm2;
+	tm tm1 = { 0 };
+	tm tm2 = { 0 };
 #ifndef WIN32
 	time_t time1 = (time_t)nTime1;
 	time_t time2 = (time_t)nTime2;
@@ -785,16 +787,21 @@ void WriteBill(const char* szFileName, const char* szFormat, ...)
 	fclose(pf);
 }
 
-pid_t gettid()
+ThreadID gettid()
 {
-	return syscall(SYS_gettid);
+#ifdef WIN32
+	return GetCurrentThreadId();
+#else
+//	return syscall(SYS_gettid);
+return 0;
+#endif
 }
 
 int32_t GetTimeString(char arrTimeString[])
 {
 	struct timeval tv;
  	gettimeofday(&tv, NULL);
-	struct tm now = *localtime(&tv.tv_sec);
+	struct tm now = *localtime((time_t *)&tv.tv_sec);
 
 	int32_t nRetLen = sprintf(arrTimeString, "%04d/%02d/%02d %02d:%02d:%02d.%03ld",
 			now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour,

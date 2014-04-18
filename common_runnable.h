@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_runnable.h
  *
  *  Created on: 2014年1月22日
@@ -8,7 +8,9 @@
 #ifndef COMMON_RUNNABLE_H_
 #define COMMON_RUNNABLE_H_
 
-class IRunnable
+#include "common_export.h"
+
+class EXPORT IRunnable
 {
 public:
 	IRunnable(){};

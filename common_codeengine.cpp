@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_string.h
  *
  *  Created on: 2013年12月14日

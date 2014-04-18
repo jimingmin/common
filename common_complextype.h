@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_complextype.h
  *
  *  Created on: 2011-11-21
@@ -11,11 +11,12 @@
 #include "common_typedef.h"
 #include "common_errordef.h"
 #include "common_object.h"
+#include "common_export.h"
 
 
 #define CCOMPLEXTYPE_SPECIFICALLY(type)	\
 	template<>	\
-	class CComplexType<type>	\
+	class EXPORT CComplexType<type>	\
 	{	\
 	public:	\
 		inline int32_t Init()	\
@@ -44,7 +45,7 @@
 
 
 template<typename T>
-class CComplexType
+class EXPORT CComplexType
 {
 public:
 	inline int32_t Init()

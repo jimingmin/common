@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_memmgt.h
  *
  *  Created on: 2013年12月16日
@@ -11,6 +11,7 @@
 #include "common_object.h"
 #include "common_singleton.h"
 #include "common_mutex.h"
+#include "common_export.h"
 
 #include <map>
 #include <list>
@@ -20,7 +21,7 @@
 using namespace std;
 
 //每次申请内存的个数
-#define ALLOC_MEM_STEP				1000
+#define ALLOC_MEM_STEP				1
 //内存块的增长步长
 #define MAM_BLOCK_SIZE_STEP			64
 
@@ -80,13 +81,13 @@ class CFrameMemMgt : public CObject
 {
 public:
 
-	CFrameMemMgt();
-	virtual ~CFrameMemMgt();
+EXPORT 	CFrameMemMgt();
+EXPORT 	virtual ~CFrameMemMgt();
 
 	//注意，初始化内存一定要保证单线程操作！
-	virtual int32_t Init();
-	virtual int32_t Uninit();
-	virtual int32_t GetSize();
+EXPORT 	virtual int32_t Init();
+EXPORT 	virtual int32_t Uninit();
+EXPORT 	virtual int32_t GetSize();
 
 	//分配内存块
 	uint8_t *AllocBlock(int32_t nWantSize);
@@ -107,7 +108,7 @@ public:
 	//记录内存泄露信息
 	void RecordMemLeakInfo(uint8_t *pMemBlock);
 	//统计目前各个内存块的数量
-	char *FormatMemBlockInfo();
+EXPORT 	char *FormatMemBlockInfo();
 
 	int32_t GetBlockSize(int32_t nWantSize);
 	//统计申请信息
@@ -115,7 +116,7 @@ public:
 	//统计释放信息
 	void RecordRecycleInfo(const char*pFileName, int32_t nLineNo, uint32_t nBlockSize);
 	//获取最大内存块大小
-	uint32_t GetMaxBlockSize();
+EXPORT 	uint32_t GetMaxBlockSize();
 
 protected:
 	int32_t MallocMemBlock(int32_t nBytes, int32_t nWantCount);
@@ -157,15 +158,15 @@ protected:
 //{
 //#endif
 //增加引用计数
-int32_t IncReferCount(uint8_t *pMem);
+EXPORT int32_t IncReferCount(uint8_t *pMem);
 //减少引用计数
-int32_t DecReferCount(uint8_t *pMem);
+EXPORT int32_t DecReferCount(uint8_t *pMem);
 //获取引用计数
-int32_t GetReferCount(uint8_t *pMem);
+EXPORT int32_t GetReferCount(uint8_t *pMem);
 
-uint8_t* frame_malloc(uint32_t size, const char *pFileName, int32_t nLineNo);
+EXPORT uint8_t* frame_malloc(uint32_t size, const char *pFileName, int32_t nLineNo);
 
-void frame_free(void *addr, const char *pFileName, int32_t nLineNo);
+EXPORT void frame_free(void *addr, const char *pFileName, int32_t nLineNo);
 
 #define MALLOC(size) 			frame_malloc(size, __FILE__, __LINE__)
 

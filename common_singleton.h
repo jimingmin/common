@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_singleton.h
  *
  *  Created on: 2013年12月13日
@@ -10,9 +10,10 @@
 
 #include <stdio.h>
 #include "common_mutex.h"
+#include "common_export.h"
 
 template<typename T>
-class CSingleton
+class EXPORT CSingleton
 {
 public:
 	//创建实例

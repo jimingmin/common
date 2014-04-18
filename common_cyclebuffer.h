@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_cyclebuffer.h
  *
  *  Created on: 2013年12月13日
@@ -14,7 +14,7 @@
 #include <string.h>
 
 template<int32_t SIZE, bool AUTOGROW = false>
-class CycleBuffer
+class EXPORT CycleBuffer
 {
 public:
 	CycleBuffer()

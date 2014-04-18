@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_string.h
  *
  *  Created on: 2013年12月14日
@@ -13,9 +13,9 @@
 #include <string.h>
 
 #include "common_typedef.h"
+#include "common_export.h"
 
-
-class CEndian
+class EXPORT CEndian
 {
 public:
 	CEndian()
@@ -38,7 +38,7 @@ public:
 };
 
 
-class CCodeEngine
+class EXPORT CCodeEngine
 {
 public:
 	CCodeEngine();

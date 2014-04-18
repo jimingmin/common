@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_string.h
  *
  *  Created on: 2013年12月14日
@@ -11,12 +11,13 @@
 #include "common_object.h"
 #include "common_errordef.h"
 #include "common_codeengine.h"
+#include "common_export.h"
 #include <string.h>
 #include <iostream>
 using namespace std;
 
 template<uint16_t SIZE>
-class CString/* : public CObject*/
+class EXPORT CString/* : public CObject*/
 {
 public:
 	//构造函数

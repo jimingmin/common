@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_thread.h
  *
  *  Created on: 2013年12月13日
@@ -23,7 +23,7 @@
 #endif
 
 #include "common_typedef.h"
-
+#include "common_export.h"
 
 #define THREAD_TERMINATE_TIMEOUT	2000
 
@@ -33,7 +33,7 @@ enum
 	enmThread_ThreadLogNameLength = 1024,
 };
 
-class CThread
+class EXPORT CThread
 {
 public:
 	CThread();
@@ -51,6 +51,7 @@ public:
 	//线程是否结束
 	bool		GetTerminated();
 	void		SetTerminated(bool bTerminated);
+
 
 	bool		SetPriority(int nPriority);
 	int			GetPriority();
@@ -85,7 +86,7 @@ protected:
 	uint32_t		m_nTimeOut;
 	HANDLE			m_hThread;
 #else
-	pthread_t		m_thread;
+	pthread_t		m_hThread;
 	pthread_mutex_t m_stMutex;
 #endif
 
@@ -97,16 +98,14 @@ protected:
 	*/
 	static bool ms_bIsSetPrivateKeyLog;
 	char	m_szName[enmThread_ThreadNameLength];
-	char m_szLogName[enmThread_ThreadLogNameLength];
+	char	m_szLogName[enmThread_ThreadLogNameLength];
 
 #ifdef WIN32
 
 #else
 	static pthread_key_t		ms_private_key_log;
+	pthread_key_t				m_stThreadDataKey;
 #endif
-
-
-	pthread_key_t			m_stThreadDataKey;
 };
 
 #endif /* COMMON_THREAD_H_ */

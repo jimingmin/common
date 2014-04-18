@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_object.h
  *
  *  Created on: 2013年12月14日
@@ -9,8 +9,9 @@
 #define COMMON_OBJECT_H_
 
 #include "common_typedef.h"
+#include "common_export.h"
 
-class CObject
+class EXPORT CObject
 {
 public:
 	CObject();

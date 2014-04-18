@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_memmgt.cpp
  *
  *  Created on: 2013年12月16日
@@ -26,7 +26,7 @@ int32_t CFrameMemMgt::Init()
 {
 	int32_t nWantCount = 0;
 	//从MAM_BLOCK_SIZE_STEP字节到n * MAM_BLOCK_SIZE_STEP字节各申请0个内存块,主要是为了生成内存块索引
-	for(int32_t i = 1; i <= 1024 * 1024; ++i)
+	for(int32_t i = 1; i <= 1024; ++i)
 	{
 		//注意，初始化内存一定要保证单线程操作！
 		int32_t nMallocCount = MallocMemBlock(i * MAM_BLOCK_SIZE_STEP, nWantCount);

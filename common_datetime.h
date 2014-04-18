@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_datetime.h
  *
  *  Created on: 2013年12月13日
@@ -8,8 +8,15 @@
 #ifndef COMMON_DATETIME_H_
 #define COMMON_DATETIME_H_
 
-#include "common_typedef.h"
+#ifdef WIN32
+#include <winsock2.h>
+#include <windows.h>
+#else
+#include <sys/time.h>
+#endif
 
+#include "common_typedef.h"
+#include "common_export.h"
 
 enum
 {
@@ -17,9 +24,31 @@ enum
 	enmDateTimeStringLength				= 19
 };
 
+#ifdef WIN32
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+EXPORT int gettimeofday(struct timeval *tp, void *tzp);
+
+EXPORT struct tm* localtime_r(const time_t *timep, struct tm *result);
+
+EXPORT char* asctime_r(const struct tm *tm, size_t buf_size, char *buf);
+
+EXPORT char* ctime_r(const time_t *timep, size_t buf_size, char *buf);
+
+EXPORT struct tm* gmtime_r(const time_t *timep, struct tm *result);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
 
 //时间间隔类
-class CDateTimeSpan
+class EXPORT CDateTimeSpan
 {
 public:
 	CDateTimeSpan();
@@ -55,7 +84,7 @@ protected:
 
 
 //日期时间类
-class CDateTime
+class EXPORT CDateTime
 {
 public:
 	static CDateTime CurrentDateTime();
@@ -116,7 +145,7 @@ protected:
 	int64_t			m_nDateTime;	//格林威治标准时间1970-01-01到所表示时间的间隔微秒数
 };
 
-class CTimeValue
+class EXPORT CTimeValue
 {
 public:
 	static CTimeValue CurrentTime();

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_thread.cpp
  *
  *  Created on: 2013年12月13日
@@ -56,7 +56,8 @@ CThread::CThread()
 	m_nTimeOut = THREAD_TERMINATE_TIMEOUT;
 	m_hThread = INVALID_HANDLE_VALUE;
 #else
-	m_thread = 0;
+	m_hThread = 0;
+	pthread_key_create(&m_stThreadDataKey, NULL);
 #endif
 
 
@@ -67,8 +68,6 @@ CThread::CThread()
 	m_szLogName[0] = '\0';
 
 	m_nThreadIndex = -1;
-
-	pthread_key_create(&m_stThreadDataKey, NULL);
 
 	SetThreadData(NULL);
 }
@@ -85,7 +84,7 @@ int32_t CThread::Start()
 #ifdef WIN32
 	m_hThread = (HANDLE)_beginthread(ThreadProc, 0, this);
 #else
-	pthread_create(&m_thread, NULL, ThreadProc, this);
+	pthread_create(&m_hThread, NULL, ThreadProc, this);
 #endif
 
 	return 0;
@@ -103,12 +102,12 @@ int32_t CThread::Terminate()
 #ifdef WIN32
     if(m_hThread != INVALID_HANDLE_VALUE)
     {
-	WaitForSingleObject(m_hThread, m_nTimeOut);
+		WaitForSingleObject(m_hThread, m_nTimeOut);
     }
 #else
-    if(m_thread != 0)
+    if(m_hThread != 0)
     {
-    	pthread_join(m_thread, NULL);
+    	pthread_join(m_hThread, NULL);
     }
 #endif
 
@@ -150,10 +149,16 @@ bool CThread::SetPriority(int nPriority)
 #ifdef WIN32
 	if(m_hThread != INVALID_HANDLE_VALUE)
 	{
-		//return SetThreadPriority(m_hThread, nPriority);
+		return SetThreadPriority(m_hThread, nPriority) == TRUE ? true : false;
+	}
+#else
+	if(m_hThread != 0)
+	{
+		return true;
 	}
 #endif
-	return true;
+
+	return false;
 }
 
 int CThread::GetPriority()
@@ -161,20 +166,33 @@ int CThread::GetPriority()
 #ifdef WIN32
 	if(m_hThread != INVALID_HANDLE_VALUE)
 	{
-		//return GetThreadPriority(m_hThread);
+		return GetThreadPriority(m_hThread) == TRUE ? true : false;
+	}
+#else
+	if(m_hThread != 0)
+	{
+		return 0;
 	}
 #endif
-	return 1;
+	return 0;
 }
 
 int32_t	CThread::SetThreadData(const void *pData)
 {
+#ifdef WIN32
+	return 0;
+#else
 	return pthread_setspecific(m_stThreadDataKey, pData);
+#endif
 }
 
 void *CThread::GetThreadData()
 {
+#ifdef WIN32
+	return 0;
+#else
 	return pthread_getspecific(m_stThreadDataKey);
+#endif
 }
 
 const char* CThread::GetName()

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_typedef.h
  *
  *  Created on: 2013年12月13日
@@ -36,6 +36,7 @@ typedef unsigned long				uint64_t;
 #if defined(WIN32) || defined(_WIN32)
 #pragma warning(disable:4996)
 #pragma warning(disable:4005)
+#pragma warning(disable:4819)
 #endif
 
 #if defined(WIN32) || defined(_WIN32)
@@ -64,5 +65,11 @@ typedef unsigned long				uint64_t;
 #define SECOND_PER_WEEK			(SECOND_PER_DAY * 7)
 #define SECOND_PER_YEAR			(DAY_PER_YEAR * SECOND_PER_DAY)
 
+
+#ifdef WIN32
+#define ThreadID unsigned long
+#else
+#define ThreadID pid_t
+#endif
 
 #endif /* COMMON_TYPEDEF_H_ */

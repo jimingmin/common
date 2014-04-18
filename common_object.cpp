@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_object.cpp
  *
  *  Created on: 2013年12月14日

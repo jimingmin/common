@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_pool.h
  *
  *  Created on: 2011-11-21
@@ -17,10 +17,11 @@
 #include "common_object.h"
 #include "common_complextype.h"
 #include "common_api.h"
+#include "common_export.h"
 
 
 template<typename T, uint32_t CAPACITY, bool RECYCLETOTAIL = true>
-class CPool : public CObject
+class EXPORT CPool : public CObject
 {
 public:
 	enum
@@ -32,7 +33,7 @@ public:
 	};
 
 public:
-	class CIndex : public CObject
+	class EXPORT CIndex : public CObject
 	{
 	public:
 		CIndex()

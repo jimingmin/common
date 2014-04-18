@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_rbtree.h
  *
  *  Created on: 2011-11-21
@@ -15,10 +15,11 @@
 #include "common_typedef.h"
 #include "common_errordef.h"
 #include "common_object.h"
+#include "common_export.h"
 
 
 template<typename TKEY, typename T, uint32_t CAPACITY>
-class CRBTree : public CObject
+class EXPORT CRBTree : public CObject
 {
 public:
 	enum
@@ -37,7 +38,7 @@ public:
 
 public:
 
-	class CIndex : public CObject
+	class EXPORT CIndex : public CObject
 	{
 	public:
 		CIndex()

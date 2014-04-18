@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_errordef.h
  *
  *  Created on: 2013年12月19日

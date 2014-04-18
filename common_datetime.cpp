@@ -1,4 +1,4 @@
-/*
+﻿/*
  * common_datetime.h
  *
  *  Created on: 2013年12月13日
@@ -12,33 +12,60 @@
 #include <string.h>
 #include <time.h>
 
-#ifdef WIN32
-#include <winsock2.h>
-#include <windows.h>
-#else
-#include <sys/time.h>
-#endif
-
 #include "common_datetime.h"
 
+#ifdef WIN32
+#pragma warning(disable:4309)
+#endif
 
 #ifdef WIN32
-//α����
-int gettimeofday(struct timeval *a_pstTv, struct timezone *a_pstTz)
+
+int gettimeofday(struct timeval *tp, void *tzp)
 {
-	return 0;
+	time_t clock;
+	struct tm tm;
+	SYSTEMTIME wtm;
+
+	GetLocalTime(&wtm);
+	tm.tm_year     = wtm.wYear - 1900;
+	tm.tm_mon     = wtm.wMonth - 1;
+	tm.tm_mday     = wtm.wDay;
+	tm.tm_hour     = wtm.wHour;
+	tm.tm_min     = wtm.wMinute;
+	tm.tm_sec     = wtm.wSecond;
+	tm. tm_isdst    = -1;
+	clock = mktime(&tm);
+	tp->tv_sec = (long)clock;
+	tp->tv_usec = wtm.wMilliseconds * 1000;
+
+	return (0);
 }
+
 struct tm* localtime_r(const time_t *timep, struct tm *result)
 {
-	return NULL;
+	if(localtime_s(result, timep) != 0)
+	{
+		return NULL;
+	}
+	return result;
 }
-char* asctime_r(const struct tm *tm, char *buf)
+
+char* asctime_r(const struct tm *tm, size_t buf_size, char *buf)
 {
-	return NULL;
+	if(asctime_s(buf, buf_size, tm) != 0)
+	{
+		return NULL;
+	}
+	return buf;
 }
-char* ctime_r(const time_t *timep, char *buf)
+
+char* ctime_r(const time_t *timep, size_t buf_size, char *buf)
 {
-	return NULL;
+	if(ctime_s(buf, buf_size, timep) != 0)
+	{
+		return NULL;
+	}
+	return buf;
 }
 struct tm* gmtime_r(const time_t *timep, struct tm *result)
 {
