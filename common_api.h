@@ -23,15 +23,20 @@ enum
 #define MAX_FORMAT_TIMESTRING_LEN		128
 
 #ifdef WIN32
+//#include <WinSock2.h>
+//#include <Windows.h>
 #define snprintf _snprintf
 //int snprintf(char *buffer, int count, const char *format, ...);	//the type of count according to MSDN _snprintf is size_t(unsignde), while "man snprintf" gives int. We keep the func consistent with the behavior on Linux
-
+#else
+#include <errno.h>
 #endif
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
+
+	EXPORT int ErrorNo();
 
 	//打印common库版本号
 	EXPORT void print_version_common_lib();

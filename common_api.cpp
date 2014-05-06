@@ -30,6 +30,14 @@
 
 #define SERVER_NAME		"Common Library"
 
+int ErrorNo()
+{
+#ifdef WIN32
+	return GetLastError();
+#else
+	return errno;
+#endif
+}
 
 //CPU休眠函数
 void Delay(uint32_t usec)
@@ -607,13 +615,6 @@ void StringToPorts(const char* szPorts, char separator, uint16_t& nPortCount, ui
 	}
 	arrPorts[nPortCount++] = atoi(p);
 }
-
-#ifdef OS_WIN32
-int CommonGetLastError() {return GetLastError();}
-#else
-#include <errno.h>
-int CommonGetLastError() {return errno;}
-#endif
 
 uint8_t GetBitNum(uint8_t u)
 {
