@@ -7,6 +7,7 @@
 
 #include "common_codeengine.h"
 #include "common_errordef.h"
+#include "common_memmgt.h"
 
 
 #define ENCODE(buf, size, offset, data, type)\
@@ -166,7 +167,7 @@ int32_t CCodeEngine::Encode(uint8_t* buf, const uint32_t size, uint32_t& offset,
 
 	int32_t ret = S_OK;
 
-	uint16_t len = (uint16_t)strlen(data) + 1;
+	uint16_t len = (uint16_t)strlen(data);
 	ret = Encode(buf, size, offset, len);
 	if (0 > ret)
 	{
@@ -179,6 +180,11 @@ int32_t CCodeEngine::Encode(uint8_t* buf, const uint32_t size, uint32_t& offset,
 	}
 
 	return S_OK;
+}
+
+int32_t CCodeEngine::Encode(uint8_t* buf, const uint32_t size, uint32_t& offset, const string &data)
+{
+	return Encode(buf, size, offset, data.c_str(), data.length());
 }
 
 int32_t CCodeEngine::Decode(const uint8_t *buf, const uint32_t size, uint32_t& offset, bool& data)
@@ -295,4 +301,43 @@ int32_t CCodeEngine::Decode(const uint8_t *buf, const uint32_t size, uint32_t& o
 	return S_OK;
 }
 
+int32_t CCodeEngine::Decode(const uint8_t *buf, const uint32_t size, uint32_t& offset, string &data)
+{
+	int32_t ret = S_OK;
 
+	uint16_t len = 0;
+	ret = Decode(buf, size, offset, len);
+	if (0 > ret)
+	{
+		return ret;
+	}
+
+	if (0 == len)
+	{
+		data = "";
+		return S_OK;
+	}
+
+#ifdef WIN32
+	char *arrBuf = (char *)MALLOC(len + 1);
+#else
+	char arrBuf[len + 1];
+#endif
+	ret = Decode(buf, size, offset, (uint8_t*)arrBuf, (uint32_t)len, (uint32_t)len);
+	if (0 > ret)
+	{
+#ifdef WIN32
+		FREE(arrBuf);
+#endif
+		return ret;
+	}
+
+	arrBuf[len] = '\0';
+	data = arrBuf;
+
+#ifdef WIN32
+	FREE(arrBuf);
+#endif
+
+	return S_OK;
+}

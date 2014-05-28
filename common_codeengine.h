@@ -14,6 +14,8 @@
 
 #include "common_typedef.h"
 #include "common_export.h"
+#include <string>
+using namespace std;
 
 class EXPORT CEndian
 {
@@ -58,6 +60,7 @@ public:
 	static int32_t Encode(uint8_t* buf, const uint32_t size, uint32_t& offset, const uint8_t *data, const uint32_t length, const uint32_t maxLength);
 	static int32_t Encode(uint8_t* buf, const uint32_t size, uint32_t& offset, const char *data, const uint16_t maxLength);
 	static int32_t Encode(uint8_t* buf, const uint32_t size, uint32_t& offset, const double data);
+	static int32_t Encode(uint8_t* buf, const uint32_t size, uint32_t& offset, const string &data);
 
 public:
 
@@ -73,6 +76,7 @@ public:
 	static int32_t Decode(const uint8_t *buf, const uint32_t size, uint32_t& offset, uint8_t* data, const uint32_t length, const uint32_t maxLength);
 	static int32_t Decode(const uint8_t *buf, const uint32_t size, uint32_t& offset, char* data, const uint16_t maxLength);
 	static int32_t Decode(const uint8_t *buf, const uint32_t size, uint32_t& offset, double& data);
+	static int32_t Decode(const uint8_t *buf, const uint32_t size, uint32_t& offset, string &data);
 
 protected:
 	static CEndian	ms_endian;
