@@ -9,21 +9,16 @@
 #include "common_errordef.h"
 #include <string.h>
 
-CFrameMemMgt::CFrameMemMgt()
+CCommonMemMgt::CCommonMemMgt()
+{
+	Init();
+}
+
+int32_t CCommonMemMgt::Init()
 {
 	m_nMaxBlockSize = 0;
 	m_nMemLeakCount = 0;
 
-	Init();
-}
-
-CFrameMemMgt::~CFrameMemMgt()
-{
-
-}
-
-int32_t CFrameMemMgt::Init()
-{
 	int32_t nWantCount = 0;
 	//从MAM_BLOCK_SIZE_STEP字节到n * MAM_BLOCK_SIZE_STEP字节各申请0个内存块,主要是为了生成内存块索引
 	for(int32_t i = 1; i <= 1024; ++i)
@@ -39,17 +34,17 @@ int32_t CFrameMemMgt::Init()
 	return S_OK;
 }
 
-int32_t CFrameMemMgt::Uninit()
+int32_t CCommonMemMgt::Uninit()
 {
 	return S_OK;
 }
 
-int32_t CFrameMemMgt::GetSize()
+int32_t CCommonMemMgt::GetSize()
 {
 	return sizeof(*this);
 }
 
-uint8_t *CFrameMemMgt::AllocBlock(int32_t nWantSize)
+uint8_t *CCommonMemMgt::AllocBlock(int32_t nWantSize)
 {
 	if(nWantSize <= 0)
 	{
@@ -102,7 +97,7 @@ uint8_t *CFrameMemMgt::AllocBlock(int32_t nWantSize)
 	return pMem;
 }
 
-void CFrameMemMgt::RecycleBlock(uint8_t *pMemBlock)
+void CCommonMemMgt::RecycleBlock(uint8_t *pMemBlock)
 {
 	if(pMemBlock == NULL)
 	{
@@ -161,7 +156,7 @@ void CFrameMemMgt::RecycleBlock(uint8_t *pMemBlock)
 }
 
 //添加块内存正在使用记录
-uint8_t* CFrameMemMgt::AddBlkAddrRcd(uint8_t *pBlock)
+uint8_t* CCommonMemMgt::AddBlkAddrRcd(uint8_t *pBlock)
 {
 	MUTEX_GUARD(lock, m_stBlkAddrLock);
 	if(pBlock != NULL)
@@ -180,7 +175,7 @@ uint8_t* CFrameMemMgt::AddBlkAddrRcd(uint8_t *pBlock)
 }
 
 //删除块内存正在使用记录
-void CFrameMemMgt::DelBlkAddrRcd(uint8_t *pBlock)
+void CCommonMemMgt::DelBlkAddrRcd(uint8_t *pBlock)
 {
 	MUTEX_GUARD(lock, m_stBlkAddrLock);
 	if(pBlock != NULL)
@@ -193,14 +188,14 @@ void CFrameMemMgt::DelBlkAddrRcd(uint8_t *pBlock)
 }
 
 //是否块内存有正在使用记录
-bool CFrameMemMgt::HasBlkAddrRcd(uint8_t *pBlock)
+bool CCommonMemMgt::HasBlkAddrRcd(uint8_t *pBlock)
 {
 	MUTEX_GUARD(lock, m_stBlkAddrLock);
 	return m_stBlkAddrRcd.count(pBlock) > 0;
 }
 
 //添加堆内存正在使用记录
-uint8_t* CFrameMemMgt::AddHeapAddrRcd(uint8_t *pBlock)
+uint8_t* CCommonMemMgt::AddHeapAddrRcd(uint8_t *pBlock)
 {
 	MUTEX_GUARD(lock, m_stHeapAddrLock);
 	if(pBlock != NULL)
@@ -219,7 +214,7 @@ uint8_t* CFrameMemMgt::AddHeapAddrRcd(uint8_t *pBlock)
 }
 
 //删除堆内存正在使用记录
-void CFrameMemMgt::DelHeapAddrRcd(uint8_t *pBlock)
+void CCommonMemMgt::DelHeapAddrRcd(uint8_t *pBlock)
 {
 	MUTEX_GUARD(lock, m_stHeapAddrLock);
 	if(pBlock != NULL)
@@ -233,14 +228,14 @@ void CFrameMemMgt::DelHeapAddrRcd(uint8_t *pBlock)
 }
 
 //是否有堆内存正在使用记录
-bool CFrameMemMgt::HasHeapAddrRcd(uint8_t *pBlock)
+bool CCommonMemMgt::HasHeapAddrRcd(uint8_t *pBlock)
 {
 	MUTEX_GUARD(lock, m_stHeapAddrLock);
 	return m_stHeapAddrRcd.count(pBlock) > 0;
 }
 
 //记录内存泄露信息
-void CFrameMemMgt::RecordMemLeakInfo(uint8_t *pMemBlock)
+void CCommonMemMgt::RecordMemLeakInfo(uint8_t *pMemBlock)
 {
 	if(pMemBlock != NULL)
 	{
@@ -249,7 +244,7 @@ void CFrameMemMgt::RecordMemLeakInfo(uint8_t *pMemBlock)
 }
 
 //统计目前各个内存块的数量
-char *CFrameMemMgt::FormatMemBlockInfo()
+char *CCommonMemMgt::FormatMemBlockInfo()
 {
 	int32_t nOffset = 0;
 	static char strMemBlockInfo[1024 * 1024];
@@ -357,7 +352,7 @@ char *CFrameMemMgt::FormatMemBlockInfo()
 	return strMemBlockInfo;
 }
 
-int32_t CFrameMemMgt::GetBlockSize(int32_t nWantSize)
+int32_t CCommonMemMgt::GetBlockSize(int32_t nWantSize)
 {
 	int32_t nBlockSize = 0;
 	if(nWantSize % MAM_BLOCK_SIZE_STEP == 0)
@@ -373,7 +368,7 @@ int32_t CFrameMemMgt::GetBlockSize(int32_t nWantSize)
 }
 
 //统计申请信息
-void CFrameMemMgt::RecordAllocInfo(const char*pFileName, int32_t nLineNo, uint32_t nBlockSize)
+void CCommonMemMgt::RecordAllocInfo(const char*pFileName, int32_t nLineNo, uint32_t nBlockSize)
 {
 	if(pFileName == NULL)
 	{
@@ -464,7 +459,7 @@ void CFrameMemMgt::RecordAllocInfo(const char*pFileName, int32_t nLineNo, uint32
 }
 
 //统计释放信息
-void CFrameMemMgt::RecordRecycleInfo(const char*pFileName, int32_t nLineNo, uint32_t nBlockSize)
+void CCommonMemMgt::RecordRecycleInfo(const char*pFileName, int32_t nLineNo, uint32_t nBlockSize)
 {
 	if(pFileName == NULL)
 	{
@@ -555,12 +550,12 @@ void CFrameMemMgt::RecordRecycleInfo(const char*pFileName, int32_t nLineNo, uint
 }
 
 //获取最大内存块大小
-uint32_t CFrameMemMgt::GetMaxBlockSize()
+uint32_t CCommonMemMgt::GetMaxBlockSize()
 {
 	return m_nMaxBlockSize;
 }
 
-int32_t CFrameMemMgt::MallocMemBlock(int32_t nBytes, int32_t nWantCount)
+int32_t CCommonMemMgt::MallocMemBlock(int32_t nBytes, int32_t nWantCount)
 {
 	int32_t nIndex = GetTableIndexByBytes(nBytes);
 	if(nIndex <= 0)
@@ -603,7 +598,7 @@ int32_t CFrameMemMgt::MallocMemBlock(int32_t nBytes, int32_t nWantCount)
 	return nMallocCount;
 }
 
-int32_t CFrameMemMgt::GetTableIndexByBytes(int32_t nBytes)
+int32_t CCommonMemMgt::GetTableIndexByBytes(int32_t nBytes)
 {
 	int32_t nMemTableIndex = 0;
 	int32_t nIndex = nBytes / MAM_BLOCK_SIZE_STEP;
@@ -627,7 +622,7 @@ int32_t CFrameMemMgt::GetTableIndexByBytes(int32_t nBytes)
 }
 
 
-MemBlockInfo *CFrameMemMgt::CreateMemBlockInfo(int32_t nBytes)
+MemBlockInfo *CCommonMemMgt::CreateMemBlockInfo(int32_t nBytes)
 {
 	int32_t nIndex = GetTableIndexByBytes(nBytes);
 	if(nIndex <= 0)
@@ -653,7 +648,7 @@ MemBlockInfo *CFrameMemMgt::CreateMemBlockInfo(int32_t nBytes)
 	return pMemBlockInfo;
 }
 
-MemBlockInfo *CFrameMemMgt::GetMemBlockInfo(int32_t nIndex)
+MemBlockInfo *CCommonMemMgt::GetMemBlockInfo(int32_t nIndex)
 {
 	if(m_stMemInfoTable.count(nIndex) <= 0)
 	{
@@ -663,6 +658,12 @@ MemBlockInfo *CFrameMemMgt::GetMemBlockInfo(int32_t nIndex)
 	return m_stMemInfoTable[nIndex];
 }
 
+//获取内存使用记录信息
+char *GetMemInfo()
+{
+	return g_CommonMemMgt.FormatMemBlockInfo();
+}
+
 //增加引用计数
 int32_t IncReferCount(uint8_t *pMem)
 {
@@ -670,7 +671,7 @@ int32_t IncReferCount(uint8_t *pMem)
 	{
 		return -1;
 	}
-	if(!g_FrameMemMgt.HasBlkAddrRcd(pMem))
+	if(!g_CommonMemMgt.HasBlkAddrRcd(pMem))
 	{
 		return -1;
 	}
@@ -686,7 +687,7 @@ int32_t DecReferCount(uint8_t *pMem)
 	{
 		return -1;
 	}
-	if(!g_FrameMemMgt.HasBlkAddrRcd(pMem))
+	if(!g_CommonMemMgt.HasBlkAddrRcd(pMem))
 	{
 		return -1;
 	}
@@ -702,7 +703,7 @@ int32_t GetReferCount(uint8_t *pMem)
 	{
 		return -1;
 	}
-	if(!g_FrameMemMgt.HasBlkAddrRcd(pMem))
+	if(!g_CommonMemMgt.HasBlkAddrRcd(pMem))
 	{
 		return -1;
 	}
@@ -721,14 +722,14 @@ uint8_t* frame_malloc(uint32_t size, const char *pFileName, int32_t nLineNo)
 	if(size > MaxBlockSize)
 	{
 		pMem = new(nothrow) uint8_t[size];
-		g_FrameMemMgt.AddHeapAddrRcd(pMem);
+		g_CommonMemMgt.AddHeapAddrRcd(pMem);
 	}
 	else
 	{
-		int32_t nBlockSize = g_FrameMemMgt.GetBlockSize(size);
-		pMem = g_FrameMemMgt.AllocBlock(nBlockSize);
-		g_FrameMemMgt.AddBlkAddrRcd(pMem);
-		g_FrameMemMgt.RecordAllocInfo(pFileName, nLineNo, nBlockSize);
+		int32_t nBlockSize = g_CommonMemMgt.GetBlockSize(size);
+		pMem = g_CommonMemMgt.AllocBlock(nBlockSize);
+		g_CommonMemMgt.AddBlkAddrRcd(pMem);
+		g_CommonMemMgt.RecordAllocInfo(pFileName, nLineNo, nBlockSize);
 	}
 	//cout << "malloc : " << hex << (unsigned)pMem << dec << " --- size=" << size << endl << flush;
 	return pMem;
@@ -741,16 +742,16 @@ void frame_free(void *addr, const char *pFileName, int32_t nLineNo)
 	if((ptr) != NULL)
 	{
 		//cout << "free : " << hex << (unsigned)addr << endl << flush;
-		if(g_FrameMemMgt.HasHeapAddrRcd(ptr))
+		if(g_CommonMemMgt.HasHeapAddrRcd(ptr))
 		{
-			g_FrameMemMgt.DelHeapAddrRcd(ptr);
+			g_CommonMemMgt.DelHeapAddrRcd(ptr);
 		}
-		else if(g_FrameMemMgt.HasBlkAddrRcd(ptr))
+		else if(g_CommonMemMgt.HasBlkAddrRcd(ptr))
 		{
 			MemBlockHead *pHead = (MemBlockHead *)(ptr - sizeof(MemBlockHead));
-			g_FrameMemMgt.RecordRecycleInfo(pFileName, nLineNo, pHead->m_nBlockSize);
-			g_FrameMemMgt.DelBlkAddrRcd(ptr);
-			g_FrameMemMgt.RecycleBlock(ptr);
+			g_CommonMemMgt.RecordRecycleInfo(pFileName, nLineNo, pHead->m_nBlockSize);
+			g_CommonMemMgt.DelBlkAddrRcd(ptr);
+			g_CommonMemMgt.RecycleBlock(ptr);
 		}
 		else
 		{

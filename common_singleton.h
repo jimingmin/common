@@ -13,7 +13,7 @@
 #include "common_export.h"
 
 template<typename T>
-class EXPORT CSingleton
+class CSingleton
 {
 public:
 	//创建实例
@@ -22,7 +22,7 @@ public:
 		return GetInstance();
 	}
 	//获取实例
-	static T& GetInstance()
+	EXPORT static T& GetInstance()
 	{
 		if (NULL == ms_pInstance)
 		{
@@ -60,8 +60,8 @@ public:
 	}
 
 protected:
-	static T	*ms_pInstance;
-	static CriticalSection	m_stLock;
+	EXPORT static T	*ms_pInstance;
+	EXPORT static CriticalSection	m_stLock;
 
 protected:
 	CSingleton()

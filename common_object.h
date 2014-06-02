@@ -14,14 +14,13 @@
 class EXPORT CObject
 {
 public:
-	CObject();
-	virtual ~CObject();
+	CObject(){};
+	virtual ~CObject(){};
 public:
-	virtual int32_t Init();
-	virtual int32_t Uninit();
-	virtual int32_t GetSize();
+	virtual int32_t Init() = 0;
+	virtual int32_t Uninit() = 0;
+	virtual int32_t GetSize() = 0;
 };
-
 
 #define ENTITYTYPE_BASE			= 0,		//基础实体类型
 #define ENTITYTYPE_OBJECT		= 1,		//对象实体类型

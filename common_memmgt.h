@@ -77,13 +77,10 @@ typedef map<string, LineNoMap *>  					MemRecordMap;
 
 typedef set<uint8_t *>		MemAddressRecord;
 
-class CFrameMemMgt : public CObject
+class CCommonMemMgt : public CObject
 {
 public:
-
-EXPORT 	CFrameMemMgt();
-EXPORT 	virtual ~CFrameMemMgt();
-
+EXPORT	CCommonMemMgt();
 	//注意，初始化内存一定要保证单线程操作！
 EXPORT 	virtual int32_t Init();
 EXPORT 	virtual int32_t Uninit();
@@ -148,15 +145,17 @@ protected:
 	MemRecordMap		m_stRecycleMemRecordMap;
 };
 
-#define	g_FrameMemMgt		CSingleton<CFrameMemMgt>::GetInstance()
+#define	g_CommonMemMgt		CSingleton<CCommonMemMgt>::GetInstance()
 
 //获取最大内存大小
-#define MaxBlockSize		g_FrameMemMgt.GetMaxBlockSize()
+#define MaxBlockSize		g_CommonMemMgt.GetMaxBlockSize()
 
 //#ifdef __cplusplus
 //extern "C"
 //{
 //#endif
+//获取内存使用记录信息
+EXPORT char *GetMemInfo();
 //增加引用计数
 EXPORT int32_t IncReferCount(uint8_t *pMem);
 //减少引用计数
@@ -174,7 +173,7 @@ EXPORT void frame_free(void *addr, const char *pFileName, int32_t nLineNo);
 
 #define NEW(cls)				new(MALLOC(sizeof(cls))) cls()
 
-#define DELETE(obj)				FREE(obj)
+#define DELETE(obj)				obj->Uninit();FREE(obj)
 
 //#ifdef __cplusplus
 //}

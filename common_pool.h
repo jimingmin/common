@@ -61,13 +61,6 @@ public:
 			return S_OK;
 		}
 
-		virtual int32_t Resume()
-		{
-			//m_object.Resume();
-
-			return S_OK;
-		}
-
 		virtual int32_t Uninit()
 		{
 			m_nFlag = enmIndexFlag_Free;
@@ -82,6 +75,11 @@ public:
 			//m_object.Uninitialize();
 
 			return S_OK;
+		}
+
+		virtual int32_t GetSize()
+		{
+			return sizeof(*this);
 		}
 
 	public:
@@ -297,15 +295,6 @@ public:
 		return S_OK;
 	}
 
-	virtual int32_t Resume()
-	{
-		for (uint32_t i = 0; i < CAPACITY; ++i)
-		{
-			m_arrIndex[i].Resume();
-		}
-		return S_OK;
-	}
-
 	virtual int32_t Uninit()
 	{
 		m_nObjectCount = 0;
@@ -327,6 +316,11 @@ public:
 		BuildIndexList();
 
 		return S_OK;
+	}
+
+	virtual int32_t GetSize()
+	{
+		return sizeof(*this);
 	}
 
 public:
