@@ -7,17 +7,17 @@ ifeq ($(mode),d)
 	LIB_DIR = $(DEBUG_LIB_DIR)
 	CPPFLAGS= -g -fPIC -Wall -DDEBUG $(INC) -Wno-invalid-offsetof
 	LDFLAGS = -g -fPIC -L$(LIB_DIR)
+	DEBUG_TARGET = $(LIB_DIR)/libcommon.a
+	TARGET	= $(DEBUG_TARGET)
 else
 	LIB_DIR = $(RELEASE_LIB_DIR)
-	CPPFLAGS= -g -fPIC -Wall  $(INC) -Wno-invalid-offsetof
-	LDFLAGS = -g -fPIC -L$(LIB_DIR)
+	CPPFLAGS= -fPIC -Wall  $(INC) -Wno-invalid-offsetof
+	LDFLAGS = -fPIC -L$(LIB_DIR)
+	RELEASE_TARGET = $(LIB_DIR)/libcommon.a
+	TARGET	= $(RELEASE_TARGET)
 endif
 
 OBJ_DIR	= ./.objs
-
-TARGET	= $(DEBUG_TARGET)
-
-DEBUG_TARGET = $(LIB_DIR)/libcommon.a
 
 SRC = $(wildcard *.cpp)
 OBJS = $(addprefix $(OBJ_DIR)/,$(subst .cpp,.o,$(SRC)))

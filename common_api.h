@@ -128,8 +128,10 @@ extern "C"
 
 #if defined(DEBUG) || defined(_DEBUG) || defined(_DEBUG_)
 #define 	DEBUG_CODE(debug_code)	{debug_code}
+#define		ASSERT(x)		assert(x)
 #else
 #define		DEBUG_CODE(debug_code)
+#define		ASSERT(x)
 #endif
 
 #ifdef __cplusplus
