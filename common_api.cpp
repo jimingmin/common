@@ -793,8 +793,7 @@ ThreadID gettid()
 #ifdef WIN32
 	return GetCurrentThreadId();
 #else
-//	return syscall(SYS_gettid);
-return 0;
+	return syscall(SYS_gettid);
 #endif
 }
 

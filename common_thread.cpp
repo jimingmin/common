@@ -43,8 +43,16 @@ void* ThreadProc(void* pParam)
 		return NULL;
 	}
 
-    CThread *p = (CThread*)pParam;
-    p->Execute();
+    CThread *pThread = (CThread*)pParam;
+    IRunnable *pRunner = pThread->GetRunner();
+    if(pRunner == NULL)
+    {
+		pThread->Execute();
+    }
+    else
+    {
+    	pRunner->Run();
+    }
 
 	return NULL;
 }
@@ -60,6 +68,7 @@ CThread::CThread()
 	pthread_key_create(&m_stThreadDataKey, NULL);
 #endif
 
+	m_pRunner = NULL;
 
 	m_bTerminated = false;
 
@@ -132,6 +141,16 @@ void CThread::Execute()
 	pthread_exit(NULL);
 #endif
 
+}
+
+void CThread::AttachRunner(IRunnable *pRunner)
+{
+	m_pRunner = pRunner;
+}
+
+IRunnable *CThread::GetRunner()
+{
+	return m_pRunner;
 }
 
 bool CThread::GetTerminated()

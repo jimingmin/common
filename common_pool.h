@@ -21,7 +21,7 @@
 
 
 template<typename T, uint32_t CAPACITY, bool RECYCLETOTAIL = true>
-class EXPORT CPool : public CObject
+class EXPORT CPool : public CBaseObject
 {
 public:
 	enum
@@ -33,7 +33,7 @@ public:
 	};
 
 public:
-	class EXPORT CIndex : public CObject
+	class EXPORT CIndex : public CBaseObject
 	{
 	public:
 		CIndex()

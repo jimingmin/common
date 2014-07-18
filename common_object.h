@@ -11,11 +11,11 @@
 #include "common_typedef.h"
 #include "common_export.h"
 
-class EXPORT CObject
+class EXPORT CBaseObject
 {
 public:
-	CObject(){};
-	virtual ~CObject(){};
+	CBaseObject(){};
+	virtual ~CBaseObject(){};
 public:
 	virtual int32_t Init() = 0;
 	virtual int32_t Uninit() = 0;

@@ -19,7 +19,7 @@
 
 
 template<typename TKEY, typename T, uint32_t CAPACITY>
-class EXPORT CRBTree : public CObject
+class EXPORT CRBTree : public CBaseObject
 {
 public:
 	enum
@@ -38,7 +38,7 @@ public:
 
 public:
 
-	class EXPORT CIndex : public CObject
+	class EXPORT CIndex : public CBaseObject
 	{
 	public:
 		CIndex()

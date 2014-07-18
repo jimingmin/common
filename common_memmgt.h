@@ -77,7 +77,7 @@ typedef map<string, LineNoMap *>  					MemRecordMap;
 
 typedef set<uint8_t *>		MemAddressRecord;
 
-class CCommonMemMgt : public CObject
+class CCommonMemMgt : public CBaseObject
 {
 public:
 EXPORT	CCommonMemMgt();

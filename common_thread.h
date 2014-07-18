@@ -24,6 +24,7 @@
 
 #include "common_typedef.h"
 #include "common_export.h"
+#include "common_runnable.h"
 
 #define THREAD_TERMINATE_TIMEOUT	2000
 
@@ -46,22 +47,26 @@ public:
 	virtual int32_t	Terminate();
 
 	//线程入口函数
-	virtual void	Execute();
+	virtual void Execute();
+
+	void AttachRunner(IRunnable *pRunner);
+
+	IRunnable *GetRunner();
 
 	//线程是否结束
-	bool		GetTerminated();
-	void		SetTerminated(bool bTerminated);
+	bool GetTerminated();
+	void SetTerminated(bool bTerminated);
 
 
-	bool		SetPriority(int nPriority);
-	int			GetPriority();
+	bool SetPriority(int nPriority);
+	int	GetPriority();
 
-	void		SetThreadIndex(int32_t nThreadIndex)
+	void SetThreadIndex(int32_t nThreadIndex)
 	{
 		m_nThreadIndex = nThreadIndex;
 	}
 
-	int32_t		GetThreadIndex()
+	int32_t	GetThreadIndex()
 	{
 		return m_nThreadIndex;
 	}
@@ -76,8 +81,8 @@ public:
 	const char* GetLogName();
 	void SetLogName(const char* log_name);
 
-	static bool		IsSetPrivateKeyLog();
-	static void		SetPrivateKeyLog();
+	static bool	IsSetPrivateKeyLog();
+	static void	SetPrivateKeyLog();
 	static int32_t InitPrivateKeyLog();
 	static CThread* GetLogCtxByPrivateKey();
 
@@ -92,6 +97,7 @@ protected:
 
 	bool			m_bTerminated;
 	int32_t			m_nThreadIndex;
+	IRunnable		*m_pRunner;
 
 	/**
 	多线程日志有关
