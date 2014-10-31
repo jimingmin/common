@@ -1,0 +1,12 @@
+T03: check
+	@echo "-------- Sample 3 --------"
+	# We use SWF 17 here to avoid the default behavior of running in a background
+	# worker when targeting SWF 18. See the samples documentation for more info.
+	"$(FLASCC)/usr/bin/g++" $(BASE_CFLAGS) common_object.cpp common_api.cpp common_codeengine.cpp common_datetime.cpp common_memmgt.cpp common_thread.cpp common_main.cpp -emit-swc=net.common -o common.swc
+	#"$(FLEX)/bin/mxmlc" -static-link-runtime-shared-libraries -compiler.omit-trace-statements=false -library-path=common.swc -debug=false entermod.as -o common.swf
+
+include ../net/Makefile.common
+
+
+clean:
+	rm -f *.swf *.bc
