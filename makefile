@@ -1,4 +1,4 @@
-BASE_DIR= ${HOME}
+BASE_DIR= ${HOME}/develop/server
 
 DEBUG_LIB_DIR = $(BASE_DIR)/lib/Debug
 RELEASE_LIB_DIR = $(BASE_DIR)/lib/Release

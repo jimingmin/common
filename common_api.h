@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <sys/types.h>
+#include <assert.h>
 #include "common_typedef.h"
 #include "common_export.h"
 
