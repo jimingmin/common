@@ -242,10 +242,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\common_string.h"
-			>
-		</File>
-		<File
 			RelativePath=".\common_thread.cpp"
 			>
 		</File>
