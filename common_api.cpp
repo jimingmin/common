@@ -792,6 +792,8 @@ ThreadID gettid()
 {
 #ifdef WIN32
 	return GetCurrentThreadId();
+#elif __ANDROID__
+	return 0;
 #else
 	return syscall(SYS_gettid);
 #endif
