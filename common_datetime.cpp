@@ -499,8 +499,8 @@ void CDateTime::ToDateString(char *szDest, int32_t nFormat/* = 0*/) const
 	{
 	case 1:
 		{
-			char strMonth[] = {0xE6, 0x9C, 0x88, 0};
-			char strDay[] = {0xE6, 0x97, 0xA5, 0};
+			char strMonth[] = {static_cast<char>(0xE6), static_cast<char>(0x9C), static_cast<char>(0x88), static_cast<char>(0)};
+			char strDay[] = {static_cast<char>(0xE6), static_cast<char>(0x97), static_cast<char>(0xA5), static_cast<char>(0)};
 			sprintf(szDest, "%d%s%d%s", st.tm_mon + 1, strMonth, st.tm_mday, strDay);
 		}
 		break;
