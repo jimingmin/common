@@ -23,8 +23,8 @@ public:
 
 extern "C"
 {
-EXPORT int32_t encrypt(char* pbyInBuffer, int32_t nInBufferLength, char* pbyOutBuffer, int32_t nOutBufferLength, char arrbyKey[16]);
-EXPORT int32_t decrypt(char* pbyInBuffer, int32_t nInBufferLength, char* pbyOutBuffer, int32_t nOutBufferLength, char arrbyKey[16]);
+EXPORT int32_t func_encrypt(char* pbyInBuffer, int32_t nInBufferLength, char* pbyOutBuffer, int32_t nOutBufferLength, char arrbyKey[16]);
+EXPORT int32_t func_decrypt(char* pbyInBuffer, int32_t nInBufferLength, char* pbyOutBuffer, int32_t nOutBufferLength, char arrbyKey[16]);
 }
 
 #endif /* COMMON_CRYPT_H_ */
