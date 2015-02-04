@@ -186,6 +186,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\common_crypt.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\common_crypt.h"
+			>
+		</File>
+		<File
 			RelativePath=".\common_cyclebuffer.h"
 			>
 		</File>
