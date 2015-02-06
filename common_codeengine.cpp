@@ -167,12 +167,15 @@ int32_t CCodeEngine::Encode(uint8_t* buf, const uint32_t size, uint32_t& offset,
 
 	int32_t ret = S_OK;
 
-	uint16_t len = (uint16_t)strlen(data);
+	uint16_t len = (uint16_t)strlen(data) + 1;
 	ret = Encode(buf, size, offset, len);
 	if (0 > ret)
 	{
 		return ret;
 	}
+
+	data[len - 1] = '\0';
+
 	ret = Encode(buf, size, offset, (uint8_t*)data, len, (uint32_t)maxLength);
 	if (0 > ret)
 	{
@@ -296,7 +299,6 @@ int32_t CCodeEngine::Decode(const uint8_t *buf, const uint32_t size, uint32_t& o
 	{
 		return ret;
 	}
-	data[len - 1] = '\0';
 
 	return S_OK;
 }
