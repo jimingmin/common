@@ -180,7 +180,7 @@ int32_t CCodeEngine::Encode(uint8_t* buf, const uint32_t size, uint32_t& offset,
 		return ret;
 	}
 
-	buf[len - 1] = '\0';
+	buf[offset] = '\0';
 	++offset;
 
 	return S_OK;
