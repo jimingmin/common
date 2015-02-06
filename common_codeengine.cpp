@@ -174,11 +174,14 @@ int32_t CCodeEngine::Encode(uint8_t* buf, const uint32_t size, uint32_t& offset,
 		return ret;
 	}
 
-	ret = Encode(buf, size, offset, (uint8_t*)data, len, (uint32_t)maxLength);
+	ret = Encode(buf, size, offset, (uint8_t*)data, len - 1, (uint32_t)maxLength);
 	if (0 > ret)
 	{
 		return ret;
 	}
+
+	buf[len - 1] = '\0';
+	++offset;
 
 	return S_OK;
 }
