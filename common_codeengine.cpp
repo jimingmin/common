@@ -174,8 +174,6 @@ int32_t CCodeEngine::Encode(uint8_t* buf, const uint32_t size, uint32_t& offset,
 		return ret;
 	}
 
-	data[len - 1] = '\0';
-
 	ret = Encode(buf, size, offset, (uint8_t*)data, len, (uint32_t)maxLength);
 	if (0 > ret)
 	{
