@@ -10,6 +10,7 @@
 
 #include "common_mutex.h"
 #include "common_memmgt.h"
+#include "common_api.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -19,6 +20,7 @@ class EXPORT CycleBuffer
 public:
 	CycleBuffer()
 	{
+		m_bQueue = false;
 		Reset();
 		m_pBuf = MALLOC(SIZE);
 		m_nBufSize = SIZE;
@@ -30,6 +32,15 @@ public:
 		{
 			FREE(m_pBuf);
 		}
+	}
+
+	void AsQueue()
+	{
+		if(AUTOGROW)
+		{
+			ASSERT(1);
+		}
+		m_bQueue = true;
 	}
 
 	int32_t Grow(int32_t nSize)
@@ -82,6 +93,12 @@ public:
 	{
 		if(nDataSize <= 0 || pBuf == NULL)
 		{
+			return 0;
+		}
+
+		if(m_bQueue)
+		{
+			ASSERT(1);
 			return 0;
 		}
 
@@ -147,7 +164,11 @@ public:
 			return 0;
 		}
 
-		MUTEX_GUARD(lock, m_stLock);
+		if(!m_bQueue)
+		{
+			MUTEX_GUARD(lock, m_stLock);
+		}
+
 		//剩余空间不足
 		if(m_nDataSize + nDataSize > m_nBufSize)
 		{
@@ -193,6 +214,12 @@ public:
 	{
 		if(nWantSize <= 0 || pBuf == NULL)
 		{
+			return 0;
+		}
+
+		if(m_bQueue)
+		{
+			ASSERT(1);
 			return 0;
 		}
 
@@ -243,7 +270,10 @@ public:
 			return 0;
 		}
 
-		MUTEX_GUARD(lock, m_stLock);
+		if(!m_bQueue)
+		{
+			MUTEX_GUARD(lock, m_stLock);
+		}
 
 		int32_t nDataSize = ((m_nDataSize < nWantSize) ? m_nDataSize : nWantSize);
 		if(nDataSize <= 0)
@@ -341,6 +371,7 @@ public:
 	}
 
 protected:
+	bool					m_bQueue;
 	CriticalSection			m_stLock;
 	volatile int32_t		m_nReadIndex;
 	volatile int32_t		m_nWriteIndex;
