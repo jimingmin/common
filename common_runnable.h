@@ -9,6 +9,7 @@
 #define COMMON_RUNNABLE_H_
 
 #include "common_export.h"
+#include "common_typedef.h"
 
 class EXPORT IRunnable
 {
