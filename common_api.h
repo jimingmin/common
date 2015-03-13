@@ -36,6 +36,8 @@ enum
 extern "C"
 {
 #endif
+	//内核hash算法,最常用于tcp链接管理,用例：(jhash_3words(sip, dip, (sport | (dport << 16)), hash_random_num) % hash_table_size);
+	EXPORT inline uint32_t JHash3Words(uint32_t a, uint32_t b, uint32_t c, uint32_t initval);
 
 	EXPORT int ErrorNo();
 
@@ -121,6 +123,8 @@ extern "C"
 	EXPORT char *stringcopy(char *dest, const char *src, size_t n);
 
 	EXPORT void WriteBill(const char* szFileName, const char* szFormat, ...);
+
+	EXPORT char *inet_ntoa_f(uint32_t ip);
 
 	EXPORT ThreadID gettid();
 

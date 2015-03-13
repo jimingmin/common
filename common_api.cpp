@@ -30,6 +30,33 @@
 
 #define SERVER_NAME		"Common Library"
 
+#define __jhash_mix(a, b, c) \
+{ \
+  a -= b; a -= c; a ^= (c>>13); \
+  b -= c; b -= a; b ^= (a<<8); \
+  c -= a; c -= b; c ^= (b>>13); \
+  a -= b; a -= c; a ^= (c>>12);  \
+  b -= c; b -= a; b ^= (a<<16); \
+  c -= a; c -= b; c ^= (b>>5); \
+  a -= b; a -= c; a ^= (c>>3);  \
+  b -= c; b -= a; b ^= (a<<10); \
+  c -= a; c -= b; c ^= (b>>15); \
+}
+
+/* The golden ration: an arbitrary value */
+#define JHASH_GOLDEN_RATIO 0x9e3779b9
+
+inline uint32_t JHash3Words(uint32_t a, uint32_t b, uint32_t c, uint32_t initval)
+{
+        a += JHASH_GOLDEN_RATIO;
+        b += JHASH_GOLDEN_RATIO;
+        c += initval;
+
+        __jhash_mix(a, b, c);
+
+        return c;
+}
+
 int ErrorNo()
 {
 #ifdef WIN32
@@ -786,6 +813,15 @@ void WriteBill(const char* szFileName, const char* szFormat, ...)
 	va_end(ap);
 
 	fclose(pf);
+}
+
+char *inet_ntoa_f(uint32_t ip)
+{
+	static char buf[16];
+	uint8_t *str = (uint8_t *)&ip;
+	sprintf(buf, "%d.%d.%d.%d", str[0] & 0xff, str[1] & 0xff, str[2] & 0xff, str[3] & 0xff);
+
+	return buf;
 }
 
 ThreadID gettid()
