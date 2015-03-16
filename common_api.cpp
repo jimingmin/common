@@ -850,5 +850,11 @@ int32_t GetTimeString(char arrTimeString[])
 	return nRetLen;
 }
 
-
+char *itoa(int32_t nInteger)
+{
+	static char buf[64];
+	int32_t nLen = sprintf(buf, "%d", nInteger);
+	buf[nLen] = '\0';
+	return buf;
+}
 

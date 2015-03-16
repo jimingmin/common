@@ -131,6 +131,8 @@ extern "C"
 	//获取当前时间的格式化字符串
 	EXPORT int32_t GetTimeString(char arrTimeString[]);
 
+	EXPORT char *itoa(int32_t nInteger);
+
 #if defined(DEBUG) || defined(_DEBUG) || defined(_DEBUG_)
 #define 	DEBUG_CODE(debug_code)	{debug_code}
 #define		ASSERT(x)		assert(x)
