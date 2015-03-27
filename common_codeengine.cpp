@@ -160,10 +160,10 @@ int32_t CCodeEngine::Encode(uint8_t* buf, const uint32_t size, uint32_t& offset,
 	{
 		return E_INVALIDARGUMENT;
 	}
-	if (0 == maxLength)
-	{
-		return E_MAXLENGTH;
-	}
+//	if (0 == maxLength)
+//	{
+//		return E_MAXLENGTH;
+//	}
 
 	int32_t ret = S_OK;
 
@@ -350,42 +350,42 @@ int32_t encode_bool(uint8_t* buf, const uint32_t size, uint32_t* offset, const b
 	return CCodeEngine::Encode(buf, size, *offset, data);
 }
 
-int32_t encode_int8(uint8_t* buf, const uint32_t size, uint32_t* offset, const int8_t data)
+int32_t encode_int8_t(uint8_t* buf, const uint32_t size, uint32_t* offset, const int8_t data)
 {
 	return CCodeEngine::Encode(buf, size, *offset, data);
 }
 
-int32_t encode_int16(uint8_t* buf, const uint32_t size, uint32_t* offset, const int16_t data)
+int32_t encode_int16_t(uint8_t* buf, const uint32_t size, uint32_t* offset, const int16_t data)
 {
 	return CCodeEngine::Encode(buf, size, *offset, data);
 }
 
-int32_t encode_int32(uint8_t* buf, const uint32_t size, uint32_t* offset, const int32_t data)
+int32_t encode_int32_t(uint8_t* buf, const uint32_t size, uint32_t* offset, const int32_t data)
 {
 	return CCodeEngine::Encode(buf, size, *offset, data);
 }
 
-int32_t encode_int64(uint8_t* buf, const uint32_t size, uint32_t* offset, const int64_t data)
+int32_t encode_int64_t(uint8_t* buf, const uint32_t size, uint32_t* offset, const int64_t data)
 {
 	return CCodeEngine::Encode(buf, size, *offset, data);
 }
 
-int32_t encode_uint8(uint8_t* buf, const uint32_t size, uint32_t* offset, const uint8_t data)
+int32_t encode_uint8_t(uint8_t* buf, const uint32_t size, uint32_t* offset, const uint8_t data)
 {
 	return CCodeEngine::Encode(buf, size, *offset, data);
 }
 
-int32_t encode_uint16(uint8_t* buf, const uint32_t size, uint32_t* offset, const uint16_t data)
+int32_t encode_uint16_t(uint8_t* buf, const uint32_t size, uint32_t* offset, const uint16_t data)
 {
 	return CCodeEngine::Encode(buf, size, *offset, data);
 }
 
-int32_t encode_uint32(uint8_t* buf, const uint32_t size, uint32_t* offset, const uint32_t data)
+int32_t encode_uint32_t(uint8_t* buf, const uint32_t size, uint32_t* offset, const uint32_t data)
 {
 	return CCodeEngine::Encode(buf, size, *offset, data);
 }
 
-int32_t encode_uint64(uint8_t* buf, const uint32_t size, uint32_t* offset, const uint64_t data)
+int32_t encode_uint64_t(uint8_t* buf, const uint32_t size, uint32_t* offset, const uint64_t data)
 {
 	return CCodeEngine::Encode(buf, size, *offset, data);
 }
@@ -415,42 +415,42 @@ int32_t decode_bool(const uint8_t *buf, const uint32_t size, uint32_t* offset, b
 	return CCodeEngine::Decode(buf, size, *offset, *data);
 }
 
-int32_t decode_int8(const uint8_t *buf, const uint32_t size, uint32_t* offset, int8_t* data)
+int32_t decode_int8_t(const uint8_t *buf, const uint32_t size, uint32_t* offset, int8_t* data)
 {
 	return CCodeEngine::Decode(buf, size, *offset, *data);
 }
 
-int32_t decode_int16(const uint8_t *buf, const uint32_t size, uint32_t* offset, int16_t* data)
+int32_t decode_int16_t(const uint8_t *buf, const uint32_t size, uint32_t* offset, int16_t* data)
 {
 	return CCodeEngine::Decode(buf, size, *offset, *data);
 }
 
-int32_t decode_int32(const uint8_t *buf, const uint32_t size, uint32_t* offset, int32_t* data)
+int32_t decode_int32_t(const uint8_t *buf, const uint32_t size, uint32_t* offset, int32_t* data)
 {
 	return CCodeEngine::Decode(buf, size, *offset, *data);
 }
 
-int32_t decode_int64(const uint8_t *buf, const uint32_t size, uint32_t* offset, int64_t* data)
+int32_t decode_int64_t(const uint8_t *buf, const uint32_t size, uint32_t* offset, int64_t* data)
 {
 	return CCodeEngine::Decode(buf, size, *offset, *data);
 }
 
-int32_t decode_uint8(const uint8_t *buf, const uint32_t size, uint32_t* offset, uint8_t* data)
+int32_t decode_uint8_t(const uint8_t *buf, const uint32_t size, uint32_t* offset, uint8_t* data)
 {
 	return CCodeEngine::Decode(buf, size, *offset, *data);
 }
 
-int32_t decode_uint16(const uint8_t *buf, const uint32_t size, uint32_t* offset, uint16_t* data)
+int32_t decode_uint16_t(const uint8_t *buf, const uint32_t size, uint32_t* offset, uint16_t* data)
 {
 	return CCodeEngine::Decode(buf, size, *offset, *data);
 }
 
-int32_t decode_uint32(const uint8_t *buf, const uint32_t size, uint32_t* offset, uint32_t* data)
+int32_t decode_uint32_t(const uint8_t *buf, const uint32_t size, uint32_t* offset, uint32_t* data)
 {
 	return CCodeEngine::Decode(buf, size, *offset, *data);
 }
 
-int32_t decode_uint64(const uint8_t *buf, const uint32_t size, uint32_t* offset, uint64_t* data)
+int32_t decode_uint64_t(const uint8_t *buf, const uint32_t size, uint32_t* offset, uint64_t* data)
 {
 	return CCodeEngine::Decode(buf, size, *offset, *data);
 }
