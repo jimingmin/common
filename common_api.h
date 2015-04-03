@@ -133,6 +133,8 @@ extern "C"
 
 	EXPORT char *itoa(int32_t nInteger);
 
+	EXPORT char *itoa64(int64_t nInteger);
+
 #if defined(DEBUG) || defined(_DEBUG) || defined(_DEBUG_)
 #define 	DEBUG_CODE(debug_code)	{debug_code}
 #define		ASSERT(x)		assert(x)

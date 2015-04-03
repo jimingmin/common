@@ -858,3 +858,11 @@ char *itoa(int32_t nInteger)
 	return buf;
 }
 
+char *itoa64(int64_t nInteger)
+{
+	static char buf[64];
+	int32_t nLen = sprintf(buf, "%ld", nInteger);
+	buf[nLen] = '\0';
+	return buf;
+}
+
