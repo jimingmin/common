@@ -25,11 +25,12 @@ public:
 #ifdef WIN32
 		m_stMutex = CreateMutex(NULL, FALSE, NULL);
 #else
-		pthread_mutexattr_t mutex_attribute;
-		pthread_mutexattr_init(&mutex_attribute);
-		pthread_mutexattr_settype(&mutex_attribute, PTHREAD_MUTEX_RECURSIVE);
-		pthread_mutex_init(&m_stMutex, &mutex_attribute);
-		pthread_mutexattr_destroy(&mutex_attribute);
+		//pthread_mutexattr_t mutex_attribute;
+		//pthread_mutexattr_init(&mutex_attribute);
+		//pthread_mutexattr_settype(&mutex_attribute, PTHREAD_MUTEX_TIMED_NP);
+		//pthread_mutex_init(&m_stMutex, &mutex_attribute);
+		//pthread_mutexattr_destroy(&mutex_attribute);
+		pthread_mutex_init(&m_stMutex, NULL);
 #endif
 	};
 
@@ -97,9 +98,9 @@ private:
 };
 
 
-#define MUTEX_GUARD(M, C)				CThreadMutex M(C);
-#define MUTEX_GUARD_RETURN(M, C, R)		if(!C.try_enter()){return (R);};\
+#define MUTEX_GUARD(M, C)				//CThreadMutex M(C);
+#define MUTEX_GUARD_RETURN(M, C, R)		/*if(!C.try_enter()){return (R);};\
 										C.leave();\
-										MUTEX_GUARD(M, C);
+										MUTEX_GUARD(M, C);*/
 
 #endif /* COMMON_MUTEX_H_ */
