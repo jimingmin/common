@@ -130,8 +130,9 @@ extern "C"
 
 	//获取当前时间的格式化字符串
 	EXPORT int32_t GetTimeString(char arrTimeString[]);
-
+#ifndef WIN32
 	EXPORT char *itoa(int32_t nInteger);
+#endif
 
 	EXPORT char *itoa64(int64_t nInteger);
 

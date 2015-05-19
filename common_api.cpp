@@ -850,6 +850,7 @@ int32_t GetTimeString(char arrTimeString[])
 	return nRetLen;
 }
 
+#ifndef WIN32
 char *itoa(int32_t nInteger)
 {
 	static char buf[64];
@@ -857,6 +858,7 @@ char *itoa(int32_t nInteger)
 	buf[nLen] = '\0';
 	return buf;
 }
+#endif
 
 char *itoa64(int64_t nInteger)
 {
