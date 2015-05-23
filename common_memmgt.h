@@ -167,7 +167,7 @@ EXPORT uint8_t* frame_malloc(uint32_t size, const char *pFileName, int32_t nLine
 
 EXPORT void frame_free(void *addr, const char *pFileName, int32_t nLineNo);
 
-#define MALLOC(size) 				frame_malloc(size, __FILE__, __LINE__)
+#define MALLOC(size) 			frame_malloc(size, __FILE__, __LINE__)
 
 #define FREE(addr)				frame_free(addr, __FILE__, __LINE__)
 
