@@ -152,7 +152,7 @@ public:
 
 public:
 	CTimeValue();
-	CTimeValue(int32_t ms);
+	CTimeValue(int64_t ms);
 	CTimeValue(struct timeval stTimeVal);
 	virtual ~CTimeValue();
 

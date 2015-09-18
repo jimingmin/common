@@ -545,7 +545,7 @@ CTimeValue::CTimeValue()
 	m_nTimeVal = 0;
 }
 
-CTimeValue::CTimeValue(int32_t ms)
+CTimeValue::CTimeValue(int64_t ms)
 {
 	m_nTimeVal = (int64_t)ms * US_PER_MS;
 }
